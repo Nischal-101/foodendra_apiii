@@ -1,6 +1,5 @@
 <?php
 require_once('../database/db.php');
-
 // Check if the required parameter (user_id) is provided
 if (isset($_POST['user_id'])) {
     $userId = $_POST['user_id'];
@@ -19,7 +18,7 @@ if (isset($_POST['user_id'])) {
 
     // Check if any restaurant names with menu items were found
     if ($result->num_rows > 0) {
-        // Initialize an array to store restaurant names with their menu items
+        // Initialize an array to store restaurant data organized by restaurant_id
         $restaurantsWithMenuItems = array();
 
         // Iterate through the results
@@ -38,6 +37,7 @@ if (isset($_POST['user_id'])) {
             if (!array_key_exists($restaurantId, $restaurantsWithMenuItems)) {
                 // If not, create a new entry for the restaurant
                 $restaurantsWithMenuItems[$restaurantId] = array(
+                    'restaurant_id' => $restaurantId,
                     'restaurant_name' => $restaurantName,
                     'menu_items' => array()
                 );
@@ -57,8 +57,6 @@ if (isset($_POST['user_id'])) {
     // Required parameter not provided
     echo json_encode(array("error" => "Required parameter 'user_id' not provided"));
 }
-
-// Close the database connection
 
 
 $conn->close();

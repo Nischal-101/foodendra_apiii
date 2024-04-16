@@ -5,7 +5,7 @@ require_once ('../database/db.php');
 $response = array();
 
 // Retrieve recommended restaurants based on average ratings
-$sql = "SELECT r.restaurant_id, r.name AS restaurant_name,r.address AS restaurant_address, AVG(rt.rating_value) AS avg_rating
+$sql = "SELECT r.restaurant_id, r.name AS restaurant_name,r.address AS restaurant_address,r.description AS restaurant_description, r.restaurant_image, AVG(rt.rating_value) AS avg_rating
         FROM restaurant r
         LEFT JOIN rating rt ON r.restaurant_id = rt.restaurant_id
         GROUP BY r.restaurant_id
@@ -23,7 +23,10 @@ if ($result->num_rows > 0) {
             'restaurant_id' => $row['restaurant_id'],
             'restaurant_name' => $row['restaurant_name'],
             'avg_rating' => $avg_rating,
-            'restaurant_address' => $row['restaurant_address']
+            'restaurant_address' => $row['restaurant_address'],
+            'restaurant_description' => $row['restaurant_description'],
+            'restaurant_image' => $row['restaurant_image']
+
         );
     }
 } else {
